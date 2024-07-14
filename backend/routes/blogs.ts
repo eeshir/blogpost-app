@@ -10,19 +10,24 @@ const app = new Hono<{
     Variables: {
         userId: any
     }
-
 }>()
 app.use('/*', async (c, next) => {
 
     const auth_token = c.req.header('Authorization') || "";
     const token = auth_token.split(' ')[1];
 
-    const response = await verify(token, c.env.JWT_SECRET)
-    if (response.id) {
-        c.set('userId', response.id);
-        await next()
+    try {
+        const response = await verify(token, c.env.JWT_SECRET)
+        if (response.id) {
+            c.set('userId', response.id);
+            await next()
+        }
+        else {
+            c.status(403)
+            return c.json({ error: 'Unauthorized' })
+        }
     }
-    else {
+    catch (e) {
         c.status(403)
         return c.json({ error: 'Unauthorized' })
     }
