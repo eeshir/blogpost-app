@@ -37,7 +37,7 @@ app.post('/signup', async (c) => {
     return c.json({ jwt: token })
   }
   catch (e) {
-    return c.json({ error :e })
+    return c.json({ message:"Error while signing up" })
   }
 })
 
@@ -47,7 +47,7 @@ app.post('/signin', async(c) => {
   }).$extends(withAccelerate())
 
   const body = await c.req.json();
-  const {success} = signupSchema.safeParse(body)
+  const {success} = signinSchema.safeParse(body)
   if(!success){
     c.status(411)
     return c.json({error: 'Invalid input'})

@@ -13,6 +13,7 @@ exports.signinSchema = zod_1.default.object({
 exports.signupSchema = zod_1.default.object({
     email: zod_1.default.string().email(),
     password: zod_1.default.string().min(6, { message: "Password must be atleast 6 characters long" }),
+    name: zod_1.default.string().min(3, { message: "Name must be atleast 3 characters long" }),
 });
 exports.createBlogSchema = zod_1.default.object({
     title: zod_1.default.string().min(3, { message: "Title must be atleast 3 characters long" }),

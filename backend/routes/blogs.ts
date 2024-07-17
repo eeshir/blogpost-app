@@ -14,10 +14,11 @@ const app = new Hono<{
 app.use('/*', async (c, next) => {
 
     const auth_token = c.req.header('Authorization') || "";
-    const token = auth_token.split(' ')[1];
+    const token = auth_token
 
     try {
         const response = await verify(token, c.env.JWT_SECRET)
+        // console.log(response)
         if (response.id) {
             c.set('userId', response.id);
             await next()
@@ -90,7 +91,19 @@ app.get('/bulk', async (c) => {
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
-    const blogs = await prisma.post.findMany({});
+    const blogs = await prisma.post.findMany({
+        select:{
+            content:true,
+            title:true,
+            id:true,
+            publishedAt:true,
+            author:{
+                select:{
+                    name:true
+                }
+            }
+        }
+    });
     return c.json(blogs)
 })
 
@@ -104,6 +117,17 @@ app.get('/:id', async (c) => {
         const blog = await prisma.post.findUnique({
             where: {
                 id: updId
+            },
+            select:{
+                content:true,
+                title:true,
+                id:true,
+                publishedAt:true,
+                author:{
+                    select:{
+                        name:true
+                    }
+                }
             }
         })
         return c.json({ blog })
