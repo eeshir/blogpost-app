@@ -12,7 +12,7 @@ export default function Blog() {
     id : id || ""
   });
   // console.log(blog);
-  if (loading) {
+  if (loading || !blog) {
     return (
       <div style={{ marginTop: 20, width: 400 }}>
         <Loader center />
