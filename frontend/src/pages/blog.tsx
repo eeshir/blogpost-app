@@ -4,9 +4,11 @@ import "rsuite/dist/rsuite.min.css";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Loader } from "rsuite";
+import { useState } from "react";
 
 export default function Blog() {
     const {id} = useParams();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     // console.log(id);
   const { loading, blog } = useBlog({
     id : id || ""
@@ -19,6 +21,9 @@ export default function Blog() {
       </div>
     );
   }
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
   return (
     <div className="flex flex-col min-h-screen">
       <header className="bg-primary text-primary-foreground py-4 shadow">
@@ -34,11 +39,28 @@ export default function Blog() {
               Publish Blog
             </Link>
           </nav>
-          <Button variant="outline" size="sm" className="md:hidden">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={toggleMenu}
+            className="md:hidden"
+          >
             <MenuIcon className="w-5 h-5" />
             <span className="sr-only">Toggle Menu</span>
           </Button>
         </div>
+        <div className={`items-center gap-4 ${isMenuOpen ? "flex" : "hidden"} justify-end md:hidden`}>
+            <ul className="font-medium flex flex-col  md:p-0 mt-4 mr-2 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+              <li>
+                <a
+                  href={`/publish`}
+                  className="block py-2 px-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >
+                  Publish Blog
+                </a>
+              </li>
+            </ul>
+          </div>
       </header>
       <main className="flex-1 py-12 md:py-16">
         <div className="container mx-auto px-4 md:px-6">

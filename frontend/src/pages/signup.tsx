@@ -25,6 +25,7 @@ export default function Signup() {
       navigate("/blogs");
     }
     catch(e){
+      console.log(e)
       alert("Error while signing up")
     }
   }
