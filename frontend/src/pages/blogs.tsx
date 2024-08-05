@@ -34,6 +34,12 @@ export default function Blogs() {
             >
               Publish Blog
             </Link>
+            <Link
+              to={`/user/profile`}
+              className="text-xl font-medium hover:text-primary-foreground/80 transition-colors"
+            >
+              Profile
+            </Link>
           </nav>
           <Button
             variant="ghost"
@@ -50,9 +56,17 @@ export default function Blogs() {
               <li>
                 <a
                   href={`/publish`}
-                  className="block py-2 px-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  className="block py-2 px-2 text-gray-900 rounded hover:bg-gray-200 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                 >
                   Publish Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`/user/profile`}
+                  className="block py-2 px-2 text-gray-900 rounded  hover:bg-gray-200 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >
+                  Profile
                 </a>
               </li>
             </ul>
@@ -70,29 +84,6 @@ export default function Blogs() {
                 publishedAt={blo.publishedAt.substring(0, 10)}
               />
             ))}
-          </div>
-          <div className="flex justify-center mt-12">
-            {/* <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious to={"#"} />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink to={"#"}>1</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink to={"#"} isActive>
-                    2
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink to={"#"}>3</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationNext to={"#"} />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination> */}
           </div>
         </div>
       </main>
@@ -129,22 +120,4 @@ function MenuIcon(props: any) {
   );
 }
 
-// function XIcon(props:any) {
-//   return (
-//     <svg
-//       {...props}
-//       xmlns="http://www.w3.org/2000/svg"
-//       width="24"
-//       height="24"
-//       viewBox="0 0 24 24"
-//       fill="none"
-//       stroke="currentColor"
-//       strokeWidth="2"
-//       strokeLinecap="round"
-//       strokeLinejoin="round"
-//     >
-//       <path d="M18 6 6 18" />
-//       <path d="m6 6 12 12" />
-//     </svg>
-//   )
-// }
+

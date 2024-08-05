@@ -43,10 +43,10 @@ export default function publish() {
               Home
             </Link> */}
           </nav>
-          <Button variant="outline" size="sm" className="md:hidden">
+          {/* <Button variant="outline" size="sm" className="md:hidden">
             <MenuIcon className="w-5 h-5" />
             <span className="sr-only">Toggle Menu</span>
-          </Button>
+          </Button> */}
         </div>
       </header>
       <main className="flex-1 py-12 md:py-16">
@@ -77,16 +77,6 @@ export default function publish() {
                     />
                   </div>
                   {/* <div>
-                    <Label htmlFor="author">Author</Label>
-                    <Input
-                      id="author"
-                      type="text"
-                      value={author}
-                      onChange={(e) => setAuthor(e.target.value)}
-                      required
-                    />
-                  </div> */}
-                  {/* <div>
                     <Label htmlFor="image">Cover Image</Label>
                     <Input
                       id="image"
@@ -113,43 +103,29 @@ export default function publish() {
           <p className="text-sm">
             &copy; 2023 Blog Website. All rights reserved.
           </p>
-          <nav className="flex items-center gap-4">
-            <Link
-              to={"/abc"}
-              className="text-sm hover:text-muted-foreground/80 transition-colors"
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              to={"/abc"}
-              className="text-sm hover:text-muted-foreground/80 transition-colors"
-            >
-              Terms of Service
-            </Link>
-          </nav>
         </div>
       </footer>
     </div>
   );
 }
 
-function MenuIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="4" x2="20" y1="12" y2="12" />
-      <line x1="4" x2="20" y1="6" y2="6" />
-      <line x1="4" x2="20" y1="18" y2="18" />
-    </svg>
-  );
-}
+// function MenuIcon(props: any) {
+//   return (
+//     <svg
+//       {...props}
+//       xmlns="http://www.w3.org/2000/svg"
+//       width="24"
+//       height="24"
+//       viewBox="0 0 24 24"
+//       fill="none"
+//       stroke="currentColor"
+//       strokeWidth="2"
+//       strokeLinecap="round"
+//       strokeLinejoin="round"
+//     >
+//       <line x1="4" x2="20" y1="12" y2="12" />
+//       <line x1="4" x2="20" y1="6" y2="6" />
+//       <line x1="4" x2="20" y1="18" y2="18" />
+//     </svg>
+//   );
+// }

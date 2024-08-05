@@ -107,6 +107,29 @@ app.get('/bulk', async (c) => {
     return c.json(blogs)
 })
 
+app.get('/user/profile', async (c) => {
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
+    const blogs = await prisma.post.findMany({
+        where:{
+            authorId:c.get('userId')
+        },
+        select:{
+            content:true,
+            title:true,
+            id:true,
+            publishedAt:true,
+            author:{
+                select:{
+                    name:true
+                }
+            }
+        }
+    });
+    return c.json(blogs)
+})
+
 app.get('/:id', async (c) => {
     const updId = c.req.param('id');
     const prisma = new PrismaClient({

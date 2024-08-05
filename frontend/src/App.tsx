@@ -4,6 +4,7 @@ import  Signin  from './pages/signin'
 import  Blogs  from './pages/blogs'
 import  Blog from './pages/blog'
 import Publish from './pages/publish'
+import UserProf from './pages/userp'
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/blogs" element={<Blogs />} />
+          <Route path="/user/profile" element={<UserProf />} />
           <Route path="/blogs/:id" element={<Blog />} />
           <Route path="/publish" element={<Publish />} />
         </Routes>
