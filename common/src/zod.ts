@@ -1,14 +1,13 @@
 import z from "zod";
 
 export const signinSchema = z.object({
-    email: z.string().email(),
+    email: z.string().email({ message: "Invalid email" }),
     password: z.string().min(6, { message: "Password must be atleast 6 characters long" }),
-    name: z.string().optional(),
 });
 
 
 export const signupSchema = z.object({
-    email: z.string().email(),
+    email: z.string().email({ message: "Invalid email" }),
     password: z.string().min(6, { message: "Password must be atleast 6 characters long" }),
     name: z.string().min(3, { message: "Name must be atleast 3 characters long" }),
 });

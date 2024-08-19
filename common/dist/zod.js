@@ -6,12 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateBlogSchema = exports.createBlogSchema = exports.signupSchema = exports.signinSchema = void 0;
 const zod_1 = __importDefault(require("zod"));
 exports.signinSchema = zod_1.default.object({
-    email: zod_1.default.string().email(),
+    email: zod_1.default.string().email({ message: "Invalid email" }),
     password: zod_1.default.string().min(6, { message: "Password must be atleast 6 characters long" }),
-    name: zod_1.default.string().optional(),
 });
 exports.signupSchema = zod_1.default.object({
-    email: zod_1.default.string().email(),
+    email: zod_1.default.string().email({ message: "Invalid email" }),
     password: zod_1.default.string().min(6, { message: "Password must be atleast 6 characters long" }),
     name: zod_1.default.string().min(3, { message: "Name must be atleast 3 characters long" }),
 });

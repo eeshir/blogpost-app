@@ -69,13 +69,13 @@ export const useBlog = ({id} : { id:string}) => {
     }
 }
 
-export const usersBlog = () => {
+export const usersBlog = ({user} : { user:string}) => {
     const [loading, setLoading] = useState(true)
     const [blogs, setBlogs] = useState<Blog[]>([]);
         useEffect(() => {
 
             try{
-                axios.get(`${BACKEND_URL}/api/v1/blogs/user/profile`,{
+                axios.get(`${BACKEND_URL}/api/v1/blogs/profile/${user}`,{
                     headers: {
                         Authorization:localStorage.getItem('token')
                     }

@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
@@ -6,10 +6,13 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { BACKEND_URL } from "@/config";
 import axios from "axios";
+import NavBar from "@/components/NavBar";
+import AuthChecker from "@/hooks/authChecker";
 
 export default function publish() {
     const navigate = useNavigate();
-//   const [loading, setLoading] = useState(false);
+    AuthChecker({page1:"",page2:"/signup"});
+  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 //   const [author, setAuthor] = useState("");
@@ -18,6 +21,7 @@ export default function publish() {
     if(!title || !content){
         return alert("Please fill all the fields");
     }
+    setLoading(true);
     const response = await axios.post(`${BACKEND_URL}/api/v1/blogs`,{
         title,
         content,
@@ -26,29 +30,12 @@ export default function publish() {
             'Authorization': `${localStorage.getItem('token')}`
         }
     })
+    setLoading(false);
     navigate(`/blogs/${response.data.id}`);
   };
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="bg-primary text-primary-foreground py-4 shadow">
-        <div className="container mx-auto flex justify-between items-center px-4 md:px-6">
-          <Link to={"/blogs"} className="text-2xl font-bold">
-            Blog Website
-          </Link>
-          <nav className="hidden md:flex items-center gap-4">
-            {/* <Link
-              to={"/blogs"}
-              className="text-sm font-medium hover:text-primary-foreground/80 transition-colors"
-            >
-              Home
-            </Link> */}
-          </nav>
-          {/* <Button variant="outline" size="sm" className="md:hidden">
-            <MenuIcon className="w-5 h-5" />
-            <span className="sr-only">Toggle Menu</span>
-          </Button> */}
-        </div>
-      </header>
+      <NavBar userName={localStorage.getItem("userName") || ""} type="publish" />
       <main className="flex-1 py-12 md:py-16">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 gap-8">
@@ -87,10 +74,10 @@ export default function publish() {
                   <Button
                     type="button"
                     onClick={handlePublish}
-                    // disabled={loading}
-                    className="w-full"
+                    disabled={loading}
+                    className="w-full font-semibold text-lg"
                   >
-                    Publish
+                    {loading ? "Publishing..." : "Publish"}
                   </Button>
                 </form>
               </div>

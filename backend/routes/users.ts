@@ -2,7 +2,9 @@ import { Hono } from 'hono'
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import { sign } from 'hono/jwt'
-import { signinSchema, signupSchema } from '@eeshir/blogpost-common'
+import { signinSchema,signupSchema } from '@eeshir/blogpost-common'
+import {z} from 'zod'
+import { fromError } from 'zod-validation-error';
 
 
 const app = new Hono<{
@@ -19,11 +21,14 @@ app.post('/signup', async (c) => {
   }).$extends(withAccelerate())
 
   const body = await c.req.json()
-  const {success} = signinSchema.safeParse(body)
-  if(!success){
+  try{
+      signupSchema.parse(body)
+  }
+  catch(e){
     c.status(411)
-    return c.json({error: 'Invalid input'})
-  }  
+    const validationError = fromError(e);
+    return c.json({error: validationError.toString() })
+  }
 
   try {
     const user = await prisma.user.create({
@@ -34,7 +39,7 @@ app.post('/signup', async (c) => {
       }
     })
     const token = await sign({ id:user.id  }, c.env.JWT_SECRET)
-    return c.json({ jwt: token })
+    return c.json({ jwt: token ,name: user.name})
   }
   catch (e) {
     return c.json({ message:"Error while signing up" })
@@ -47,11 +52,14 @@ app.post('/signin', async(c) => {
   }).$extends(withAccelerate())
 
   const body = await c.req.json();
-  const {success} = signinSchema.safeParse(body)
-  if(!success){
-    c.status(411)
-    return c.json({error: 'Invalid input'})
-  }  
+  try{
+    signinSchema.parse(body)
+}
+catch(e){
+  c.status(411)
+  const validationError = fromError(e);
+  return c.json({error: validationError.toString() })
+}  
   try{
     const user = await prisma.user.findUnique({
       where: {
@@ -63,7 +71,7 @@ app.post('/signin', async(c) => {
       return c.json({ message: 'User not found' })
     }
     const token = await sign({ id: user.id }, c.env.JWT_SECRET)
-    return c.json({ jwt: token })
+    return c.json({ jwt: token , name: user.name})
   }
   catch(e){
     c.status(500)

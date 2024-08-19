@@ -34,6 +34,10 @@ app.use('/*', async (c, next) => {
     }
 
 })
+app.get('/auth', async(c)=>{
+
+    return c.json({message:"Authorized"})
+})
 app.post('/', async (c) => {
     const body = await c.req.json();
     const prisma = new PrismaClient({
@@ -107,13 +111,16 @@ app.get('/bulk', async (c) => {
     return c.json(blogs)
 })
 
-app.get('/user/profile', async (c) => {
+app.get('/profile/:user', async (c) => {
+    const userName = c.req.param('user');
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
     const blogs = await prisma.post.findMany({
         where:{
-            authorId:c.get('userId')
+            author:{
+                name:userName
+            }
         },
         select:{
             content:true,

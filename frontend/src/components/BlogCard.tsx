@@ -28,22 +28,22 @@ export const BlogCard = ({
           className="w-full h-48 object-cover"
         />
       </Link>
-      <div className="p-4">
+      <div className="p-4 bg-slate-300">
         <Link
           to={`/blogs/${id}`}
-          className="block mb-2 text-lg font-semibold hover:text-primary transition-colors"
+          className="block mb-4 text-xl font-extrabold hover:text-primary transition-colors"
         >
           {title}
         </Link>
-        <div className="flex items-center mb-4 text-sm text-muted-foreground">
-          <Avatar className="w-6 h-6 mr-2">
+        <div className="flex justify-between items-center mb-4 text-sm text-muted-foreground">
+          <Avatar className="w-8 h-8 ml-2">
             <AvatarImage src="/placeholder-user.jpg" />
             <AvatarFallback>
               {authorName.charAt(0) + authorName.charAt(1)}
             </AvatarFallback>
           </Avatar>
-          <div className="flex space-x-5">
-            <div>{authorName}</div>
+          <div className="flex justify space-x-5 mr-2">
+            <Link to={`/profile/${authorName}`}>{authorName}</Link>
             <div>Published At : {publishedAt}</div>
           </div>
         </div>
