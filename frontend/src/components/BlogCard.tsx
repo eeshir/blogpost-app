@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import stockImg from "../placeholder.svg";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+
 
 interface BlogCardProps {
   authorName: string;
@@ -21,7 +21,7 @@ export const BlogCard = ({
     <div className="bg-background rounded-lg overflow-hidden shadow-lg">
       <Link to={`/blogs/${id}`}>
         <img
-          src={stockImg}
+          src={"/icons/placeholder.svg"}
           alt="Blog Post Image"
           width={400}
           height={225}
@@ -37,7 +37,7 @@ export const BlogCard = ({
         </Link>
         <div className="flex justify-between items-center mb-4 text-sm text-muted-foreground">
           <Avatar className="w-8 h-8 ml-2">
-            <AvatarImage src="/placeholder-user.jpg" />
+            {/* <AvatarImage src="/placeholder-user.jpg" /> */}
             <AvatarFallback>
               {authorName.charAt(0) + authorName.charAt(1)}
             </AvatarFallback>

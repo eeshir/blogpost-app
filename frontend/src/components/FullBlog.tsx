@@ -1,6 +1,5 @@
 import "rsuite/dist/rsuite.min.css";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import stockImg from "../pages/placeholder.svg";
+import { Avatar,  AvatarFallback } from "@/components/ui/avatar";
 import { Blog } from "@/hooks";
 
 export const FullBlog = ({ blog }: { blog: Blog }) => {
@@ -8,7 +7,7 @@ export const FullBlog = ({ blog }: { blog: Blog }) => {
     <div className="grid grid-cols-1 gap-8">
       <div className="bg-background rounded-lg overflow-hidden shadow-lg">
         <img
-          src={stockImg}
+          src={"/icons/placeholder.svg"}
           alt="Blog Post Image"
           width={800}
           height={450}
@@ -18,7 +17,7 @@ export const FullBlog = ({ blog }: { blog: Blog }) => {
           <h1 className="text-3xl font-bold mb-4">{blog.title}</h1>
           <div className="flex items-center mb-4 text-sm text-muted-foreground">
             <Avatar className="w-8 h-8 mr-2">
-              <AvatarImage src="/placeholder-user.jpg" />
+              {/* <AvatarImage src="/placeholder-user.jpg" /> */}
               <AvatarFallback>
                 {blog.author.name.charAt(0) + blog.author.name.charAt(1)}
               </AvatarFallback>

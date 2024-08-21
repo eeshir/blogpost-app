@@ -91,11 +91,15 @@ app.put('/', async (c) => {
     return c.json({ message: 'Blog Updated', blog })
 })
 
-app.get('/bulk', async (c) => {
+app.get('/bulk/:count', async (c) => {
+    const count = Number(c.req.param('count'));
+    console.log(count)
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
     const blogs = await prisma.post.findMany({
+        skip:count*6,
+        take:6,
         select:{
             content:true,
             title:true,
@@ -106,6 +110,9 @@ app.get('/bulk', async (c) => {
                     name:true
                 }
             }
+        },
+        orderBy:{
+            publishedAt:'asc'
         }
     });
     return c.json(blogs)
