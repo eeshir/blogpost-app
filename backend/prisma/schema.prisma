@@ -27,6 +27,7 @@ model Post {
   content   String
   published Boolean  @default(false)
   author    User     @relation(fields: [authorId], references: [id])
+  imagesrc  String   @default("https://pub-67037db75c5045cba8857c7467cfdf2f.r2.dev/placeholder.svg")
   publishedAt DateTime @default(now())
   authorId  String
 }

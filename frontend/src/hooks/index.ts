@@ -7,6 +7,7 @@ export interface Blog {
     title: string;
     content: string;
     publishedAt: string;
+    imagesrc: string;
     author: {
         name: string
     }

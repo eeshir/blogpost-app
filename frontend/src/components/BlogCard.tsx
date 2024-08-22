@@ -8,6 +8,7 @@ interface BlogCardProps {
   content: string;
   publishedAt: string;
   id: string;
+  imagesrc: string;
 }
 
 export const BlogCard = ({
@@ -16,12 +17,13 @@ export const BlogCard = ({
   content,
   publishedAt,
   id,
+  imagesrc,
 }: BlogCardProps) => {
   return (
     <div className="bg-background rounded-lg overflow-hidden shadow-lg">
       <Link to={`/blogs/${id}`}>
         <img
-          src={"/icons/placeholder.svg"}
+          src={imagesrc}
           alt="Blog Post Image"
           width={400}
           height={225}

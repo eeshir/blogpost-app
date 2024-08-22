@@ -95,6 +95,7 @@ export default function Blogs() {
                 title={blo.title}
                 content={blo.content}
                 publishedAt={blo.publishedAt.substring(0, 10)}
+                imagesrc={blo.imagesrc}
               />
             ))}
           </div>

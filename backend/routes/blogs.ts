@@ -6,11 +6,14 @@ const app = new Hono<{
     Bindings: {
         DATABASE_URL: string
         JWT_SECRET: string
+        HONO_R2_UPLOAD:R2Bucket
     },
     Variables: {
         userId: any
     }
 }>()
+
+
 app.use('/*', async (c, next) => {
 
     const auth_token = c.req.header('Authorization') || "";
@@ -39,25 +42,40 @@ app.get('/auth', async(c)=>{
     return c.json({message:"Authorized"})
 })
 app.post('/', async (c) => {
-    const body = await c.req.json();
+    const fileBody = await c.req.parseBody();
+    const file = fileBody["image"];
+    const title = fileBody["title"];
+    const content = fileBody["content"];
+    let imageName;
+    if(file instanceof File)
+   {imageName = String(file.name);}
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
-
+    
+    // console.log("file")
+    // console.log(file)
+    // console.log(title)
+    // console.log(content)
+    // console.log(imageName)
     try {
         const blog = await prisma.post.create({
             data: {
-                title: body.title,
-                content: body.content,
-                authorId: c.get('userId')
+                title: String(title),
+                content: String(content),
+                authorId: c.get('userId'),
+                imagesrc:`https://pub-67037db75c5045cba8857c7467cfdf2f.r2.dev/${imageName}`
             }
         })
+        await c.env.HONO_R2_UPLOAD.put(`${imageName}`,file)
         // console.log(c.get('userId'));
         return c.json({ id: blog.id })
     }
     catch (e) {
         return c.json({ error: e })
     }
+    // c.status(411)
+    // c.json({message:"Under Development"})
 })
 
 app.put('/', async (c) => {
@@ -74,7 +92,6 @@ app.put('/', async (c) => {
         }
     })
     if (!check) {
-        c.status(411);
         return c.json({ message: 'Blog Not Found' })
     }
     const blog = await prisma.post.update({
@@ -87,13 +104,13 @@ app.put('/', async (c) => {
             content: body.content
         }
     })
-
+    c.status(411)
     return c.json({ message: 'Blog Updated', blog })
 })
 
 app.get('/bulk/:count', async (c) => {
     const count = Number(c.req.param('count'));
-    console.log(count)
+    // console.log(count)
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
@@ -105,6 +122,7 @@ app.get('/bulk/:count', async (c) => {
             title:true,
             id:true,
             publishedAt:true,
+            imagesrc:true,
             author:{
                 select:{
                     name:true
@@ -134,6 +152,7 @@ app.get('/profile/:user', async (c) => {
             title:true,
             id:true,
             publishedAt:true,
+            imagesrc:true,
             author:{
                 select:{
                     name:true
@@ -160,6 +179,7 @@ app.get('/:id', async (c) => {
                 title:true,
                 id:true,
                 publishedAt:true,
+                imagesrc:true,
                 author:{
                     select:{
                         name:true

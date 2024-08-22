@@ -7,7 +7,7 @@ export const FullBlog = ({ blog }: { blog: Blog }) => {
     <div className="grid grid-cols-1 gap-8">
       <div className="bg-background rounded-lg overflow-hidden shadow-lg">
         <img
-          src={"/icons/placeholder.svg"}
+          src={blog.imagesrc}
           alt="Blog Post Image"
           width={800}
           height={450}

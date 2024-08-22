@@ -1,41 +1,59 @@
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { BACKEND_URL } from "@/config";
-import axios from "axios";
 import NavBar from "@/components/NavBar";
 import AuthChecker from "@/hooks/authChecker";
+import axios from "axios";
 
 export default function publish() {
-    const navigate = useNavigate();
-    AuthChecker({page1:"",page2:"/signup"});
+  const navigate = useNavigate();
+  AuthChecker({ page1: "", page2: "/signup" });
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-//   const [author, setAuthor] = useState("");
-//   const [image, setImage] = useState(null);
+  //   const [author, setAuthor] = useState("");
+  const [image, setImage] = useState<File | null>(null);
+  const [error, setError] = useState("");
+  const validFileTypes = ["image/jpeg", "image/png", "image/jpg"];
   const handlePublish = async () => {
-    if(!title || !content){
-        return alert("Please fill all the fields");
+    if (!title || !content || !image) {
+      return alert("Please fill all the fields");
     }
     setLoading(true);
-    const response = await axios.post(`${BACKEND_URL}/api/v1/blogs`,{
-        title,
-        content,
-    },{
-        headers:{
-            'Authorization': `${localStorage.getItem('token')}`
+    try{
+      const formData = new FormData();
+      formData.append("image", image);
+      formData.append("title", title);
+      formData.append("content", content);
+      console.log(formData);
+      console.log(image);
+      const response = await axios.post(
+        `${BACKEND_URL}/api/v1/blogs`,formData,
+        {
+          headers: {
+            Authorization: `${localStorage.getItem("token")}`,
+          },
         }
-    })
-    setLoading(false);
-    navigate(`/blogs/${response.data.id}`);
+      );
+      setLoading(false);
+      navigate(`/blogs/${response.data.id}`);
+    }
+    catch(e){
+      // console.log(e);
+      setLoading(false);
+      setError("Error while publishing the blog post. Please try again later.");
+    }
   };
   return (
     <div className="flex flex-col min-h-screen">
-      <NavBar userName={localStorage.getItem("userName") || ""} type="publish" />
+      <NavBar
+        userName={localStorage.getItem("userName") || ""}
+        type="publish"
+      />
       <main className="flex-1 py-12 md:py-16">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 gap-8">
@@ -63,14 +81,31 @@ export default function publish() {
                       required
                     />
                   </div>
-                  {/* <div>
+                  <div>
                     <Label htmlFor="image">Cover Image</Label>
                     <Input
                       id="image"
                       type="file"
-                      onChange={(e) => setImage(e.target.files[0])}
+                      className="bg-slate-400"
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files.length > 0) {
+                          if(!validFileTypes.includes(e.target.files[0].type)){
+                            setError("Invalid file type. Please upload a valid image file (JPG, JPEG, PNG).");
+                            return;
+                          }
+                          if(e.target.files[0].size > 5242880){
+                            setError("File size too large. Please upload an image file less than 5MB.");
+                            return;
+                          }
+                          setImage(e.target.files[0]);
+                        }
+                        // console.log(image);
+                      }}
                     />
-                  </div> */}
+                    {error && (
+                      <div className="text-red-500 text-sm">{error}</div>
+                    )}
+                  </div>
                   <Button
                     type="button"
                     onClick={handlePublish}

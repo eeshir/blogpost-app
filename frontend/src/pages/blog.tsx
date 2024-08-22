@@ -23,6 +23,7 @@ export default function Blog() {
       </div>
     );
   }
+  console.log(blog);
   return (
     <div className="flex flex-col min-h-screen">
       <NavBar userName={userName} type="blog" />

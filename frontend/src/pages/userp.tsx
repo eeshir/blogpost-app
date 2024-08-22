@@ -44,6 +44,7 @@ function emptyChecker(blogs:any){
                 title={blo.title}
                 content={blo.content}
                 publishedAt={blo.publishedAt.substring(0, 10)}
+                imagesrc={blo.imagesrc}
               />
             ))}
           </div>
