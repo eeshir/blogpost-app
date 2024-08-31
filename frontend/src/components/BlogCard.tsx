@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
-
 interface BlogCardProps {
   authorName: string;
   title: string;
@@ -9,6 +8,8 @@ interface BlogCardProps {
   publishedAt: string;
   id: string;
   imagesrc: string;
+  views: number;
+  likes: number;
 }
 
 export const BlogCard = ({
@@ -18,9 +19,12 @@ export const BlogCard = ({
   publishedAt,
   id,
   imagesrc,
+  views,
+  likes,
 }: BlogCardProps) => {
+  // console.log(views);
   return (
-    <div className="bg-background rounded-lg overflow-hidden shadow-lg">
+    <div className="bg-background rounded-lg overflow-hidden shadow-lg hover:scale-105 hover:shadow-black hover:shadow-xl">
       <Link to={`/blogs/${id}`}>
         <img
           src={imagesrc}
@@ -37,7 +41,7 @@ export const BlogCard = ({
         >
           {title}
         </Link>
-        <div className="flex justify-between items-center mb-4 text-sm text-muted-foreground">
+        <div className="flex justify-between items-center mb-2 text-sm text-muted-foreground">
           <Avatar className="w-8 h-8 ml-2">
             {/* <AvatarImage src="/placeholder-user.jpg" /> */}
             <AvatarFallback>
@@ -47,6 +51,28 @@ export const BlogCard = ({
           <div className="flex justify space-x-5 mr-2">
             <Link to={`/profile/${authorName}`}>{authorName}</Link>
             <div>Published At : {publishedAt}</div>
+          </div>
+        </div>
+        <div className="flex mb-2 justify-between">
+          <div className="flex items-center">
+            <img
+              src={"/icons/view-eye.svg"}
+              alt={"Home"}
+              width={20}
+              height={20}
+              className="mr-1"
+            />
+            <span>Views: {views}</span>
+          </div>
+          <div className="flex items-center">
+            <img
+              src={"/icons/like_black.svg"}
+              alt={"Home"}
+              width={20}
+              height={20}
+              className="mr-1"
+            />
+            <span>Likes: {likes}</span>
           </div>
         </div>
         <p className="text-muted-foreground line-clamp-3">{content}</p>

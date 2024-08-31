@@ -8,6 +8,7 @@ import AuthChecker from "@/hooks/authChecker";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "@/config";
+import Footer from "@/components/Footer";
 // import LoaderComp from "@/components/LoadingScreen"
 
 export default function Blogs() {
@@ -56,7 +57,7 @@ export default function Blogs() {
         })
         .then((res) => {
           // console.log(res.data.length + "   length"); 
-
+          // console.log(res.data);
           if (res.data.length === 0) {
             setNotLastPage(false);
           }
@@ -82,12 +83,13 @@ export default function Blogs() {
 
   const userName = localStorage.getItem("userName") || "";
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen ">
       <NavBar userName={userName} type="blogs" />
-      <main className="flex-1 py-12 md:py-16">
+      <main className="flex-1 py-12 md:py-16 bg-[url('https://res.cloudinary.com/dvn0crswa/image/upload/f_auto,q_auto/bz8pylfw97v9iofdkd7f')] bg-no-repeat bg-fixed bg-cover bg-center  ">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ">
             {blogs.map((blo) => (
+              // console.log(blo),
               <BlogCard
                 key={blo.id}
                 id={blo.id}
@@ -96,6 +98,8 @@ export default function Blogs() {
                 content={blo.content}
                 publishedAt={blo.publishedAt.substring(0, 10)}
                 imagesrc={blo.imagesrc}
+                views={blo.views}
+                likes={blo.likes}
               />
             ))}
           </div>
@@ -106,14 +110,7 @@ export default function Blogs() {
           )}
         </div>
       </main>
-      <footer className="bg-muted text-muted-foreground py-6">
-        <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
-          <p className="text-sm">
-            &copy; 2023 Blog Website. All rights reserved.
-          </p>
-          <nav className="flex items-center gap-4"></nav>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

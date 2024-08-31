@@ -31,7 +31,7 @@ export default function Component() {
         postInputs
       );
       const jwt = response.data;
-      console.log(response.data);
+      // console.log(response.data);
       if (jwt.message === "User not found") {
         setWrongUser("Incorrect Email or Password")
         navigate("/signin");

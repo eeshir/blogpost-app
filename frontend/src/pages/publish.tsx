@@ -8,6 +8,7 @@ import { BACKEND_URL } from "@/config";
 import NavBar from "@/components/NavBar";
 import AuthChecker from "@/hooks/authChecker";
 import axios from "axios";
+import Footer from "@/components/Footer";
 
 export default function publish() {
   const navigate = useNavigate();
@@ -21,7 +22,19 @@ export default function publish() {
   const validFileTypes = ["image/jpeg", "image/png", "image/jpg"];
   const handlePublish = async () => {
     if (!title || !content || !image) {
-      return alert("Please fill all the fields");
+      return alert("Please fill all the fields correctly");
+    }
+    if(title.length > 80){
+      setError("Title should be less than 80 characters.");
+      return ;
+    }
+    if(image.size > 5242880){
+      setError("File size too large. Please upload an image file less than 5MB.");
+      return;
+    }
+    if(!validFileTypes.includes(image.type)){
+      setError("Invalid file type. Please upload a valid image file (JPG, JPEG, PNG).");
+      return;
     }
     setLoading(true);
     try{
@@ -29,8 +42,8 @@ export default function publish() {
       formData.append("image", image);
       formData.append("title", title);
       formData.append("content", content);
-      console.log(formData);
-      console.log(image);
+      // console.log(formData);
+      // console.log(image);
       const response = await axios.post(
         `${BACKEND_URL}/api/v1/blogs`,formData,
         {
@@ -54,10 +67,10 @@ export default function publish() {
         userName={localStorage.getItem("userName") || ""}
         type="publish"
       />
-      <main className="flex-1 py-12 md:py-16">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 gap-8">
-            <div className="bg-background rounded-lg overflow-hidden shadow-lg">
+      <main className="flex-1 py-12 md:py-16 bg-[url('https://res.cloudinary.com/dvn0crswa/image/upload/f_auto,q_auto/uop9ootcrgsiipgwvzf4')] bg-no-repeat bg-fixed bg-cover bg-center">
+        <div className="container mx-auto px-4 md:px-6 ">
+          <div className="grid grid-cols-1 gap-8 ">
+            <div className="bg-background rounded-lg overflow-hidden shadow-lg ">
               <div className="p-6">
                 <h1 className="text-3xl font-bold mb-4">Publish a Blog Post</h1>
                 <form className="space-y-4">
@@ -67,7 +80,14 @@ export default function publish() {
                       id="title"
                       type="text"
                       value={title}
-                      onChange={(e) => setTitle(e.target.value)}
+                      onChange={(e) =>{
+                        if(e.target.value.length > 80){
+                          setError("Title should be less than 80 characters.");
+                          // setTitle("");  
+                          setTitle(e.target.value)
+                          return;
+                        }
+                        setTitle(e.target.value)}}
                       required
                     />
                   </div>
@@ -103,7 +123,7 @@ export default function publish() {
                       }}
                     />
                     {error && (
-                      <div className="text-red-500 text-sm">{error}</div>
+                      <div className="text-red-500 font-bold text-sm">{error}</div>
                     )}
                   </div>
                   <Button
@@ -120,13 +140,7 @@ export default function publish() {
           </div>
         </div>
       </main>
-      <footer className="bg-muted text-muted-foreground py-6">
-        <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
-          <p className="text-sm">
-            &copy; 2023 Blog Website. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <Footer/>
     </div>
   );
 }
