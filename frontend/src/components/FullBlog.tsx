@@ -149,7 +149,7 @@ export default function FullBlog({
           {createdByUser 
           ?(
             <div className="flex flex-row justify-end mt-4 items-center">
-              <Button className="font-semibold text-xl items-center pt-1" onClick={handleDelete} disabled={delLoading}>
+              <Button className="font-semibold text-xl items-center bg-red-500 pt-1" onClick={handleDelete} disabled={delLoading}>
               Delete
             </Button>
             </div>
