@@ -89,7 +89,7 @@ export default function Blogs() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ">
             {blogs.map((blo) => (
-              // console.log(blo),
+              
               <BlogCard
                 key={blo.id}
                 id={blo.id}
@@ -100,6 +100,7 @@ export default function Blogs() {
                 imagesrc={blo.imagesrc}
                 views={blo.views}
                 likes={blo.likes}
+                likedBY={blo.likedBy}
               />
             ))}
           </div>

@@ -130,7 +130,8 @@ app.get('/bulk/:count', async (c) => {
                     name: true
                 }
             },
-            likes: true
+            likes: true,
+            likedBy: true
         },
         orderBy: {
             publishedAt: 'asc'
@@ -162,7 +163,8 @@ app.get('/profile/:user', async (c) => {
                     name: true
                 }
             },
-            likes: true
+            likes: true,
+            likedBy: true
         },
     });
     return c.json(blogs)

@@ -20,7 +20,7 @@ model User {
   password String
   posts    Post[]
   likes    String[] @default([])
-  // likes    Like[] 
+  // likedPost    Like[] 
 }
 
 model Post {
@@ -33,7 +33,7 @@ model Post {
   publishedAt DateTime @default(now())
   authorId    String
   views       Int      @default(0)
-  // likes       Like[]
+  // likedBY       Like[]
   likedBy     String[] @default([])
   likes       Int      @default(0)
 }

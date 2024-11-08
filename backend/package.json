@@ -6,7 +6,7 @@
   },
   "dependencies": {
     "@eeshir/blogpost-common": "^1.4.0",
-    "@prisma/client": "^5.18.0",
+    "@prisma/client": "^5.19.1",
     "@prisma/extension-accelerate": "^1.1.0",
     "buffer": "^6.0.3",
     "hono": "^4.4.13",
@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240529.0",
-    "prisma": "^5.18.0",
+    "prisma": "^5.19.1",
     "wrangler": "^3.68.0"
   }
 }

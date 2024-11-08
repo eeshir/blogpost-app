@@ -33,6 +33,7 @@ export default function Signup() {
       const jwt = response.data;
       localStorage.setItem("token", jwt.jwt);
       localStorage.setItem("userName", jwt.name);
+      localStorage.setItem("userId", jwt.Id);
       navigate("/blogs");
     } catch (e: any) {
       setError(e.response.data.error);

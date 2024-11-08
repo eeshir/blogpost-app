@@ -10,6 +10,7 @@ interface BlogCardProps {
   imagesrc: string;
   views: number;
   likes: number;
+  likedBY: string[];
 }
 
 export const BlogCard = ({
@@ -21,8 +22,13 @@ export const BlogCard = ({
   imagesrc,
   views,
   likes,
+  likedBY,
 }: BlogCardProps) => {
   // console.log(views);
+  // console.log(likedBY + "liked by");
+  // console.log(localStorage.getItem('userId' + "localstorage id"));
+  // console.log(likedBY.includes(localStorage.getItem('userId') as string) + "includes");
+  // console.log(likedBY.length + "length");
   return (
     <div className="bg-background rounded-lg overflow-hidden shadow-lg hover:scale-105 hover:shadow-black hover:shadow-xl">
       <Link to={`/blogs/${id}`}>
@@ -65,13 +71,21 @@ export const BlogCard = ({
             <span>Views: {views}</span>
           </div>
           <div className="flex items-center">
-            <img
-              src={"/icons/like_black.svg"}
+            {likedBY.length>0 && likedBY.includes(localStorage.getItem('userId') as string)
+            ? (<img
+              src={"/icons/red-heart-icon.svg"}
               alt={"Home"}
               width={20}
               height={20}
               className="mr-1"
-            />
+            />)
+            : (<img
+              src={"/icons/heart-svgrepo-com.svg"}
+              alt={"Home"}
+              width={20}
+              height={20}
+              className="mr-1"
+            />)}
             <span>Likes: {likes}</span>
           </div>
         </div>

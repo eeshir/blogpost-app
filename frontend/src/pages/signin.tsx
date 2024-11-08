@@ -38,6 +38,7 @@ export default function Component() {
       } else {
         localStorage.setItem("token", jwt.jwt);
         localStorage.setItem("userName", jwt.name);
+        localStorage.setItem("userId", jwt.Id);
         navigate("/blogs");
       }
     } catch (e: any) {

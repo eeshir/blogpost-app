@@ -48,6 +48,7 @@ function emptyChecker(blogs:any){
                 imagesrc={blo.imagesrc}
                 views={blo.views}
                 likes={blo.likes}
+                likedBY={blo.likedBy}
               />
             ))}
           </div>

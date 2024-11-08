@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
-import { sign } from 'hono/jwt'
+import { sign} from 'hono/jwt'
 import { signinSchema,signupSchema } from '@eeshir/blogpost-common'
 import {z} from 'zod'
 import { fromError } from 'zod-validation-error';
@@ -39,7 +39,7 @@ app.post('/signup', async (c) => {
       }
     })
     const token = await sign({ id:user.id  }, c.env.JWT_SECRET)
-    return c.json({ jwt: token ,name: user.name})
+    return c.json({ jwt: token ,name: user.name, Id: user.id })
   }
   catch (e) {
     return c.json({ message:"Error while signing up" })
@@ -70,8 +70,9 @@ catch(e){
     if (!user) {
       return c.json({ message: 'User not found' })
     }
+  
     const token = await sign({ id: user.id }, c.env.JWT_SECRET)
-    return c.json({ jwt: token , name: user.name})
+    return c.json({ jwt: token , name: user.name , Id: user.id })
   }
   catch(e){
     c.status(500)
